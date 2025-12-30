@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch Web App</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #020617;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+}
+
+.container {
+    background: #0f172a;
+    padding: 25px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+.time {
+    font-size: 2.5rem;
+    margin: 20px 0;
+    letter-spacing: 2px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 6px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.start { background: #22c55e; }
+.pause { background: #eab308; }
+.reset { background: #ef4444; }
+.lap { background: #38bdf8; }
+
+button:hover {
+    opacity: 0.9;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+li {
+    background: #1e293b;
+    padding: 6px;
+    margin: 5px 0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Stopwatch</h1>
+
+    <div class="time" id="display">00:00:00</div>
+
+    <div>
+        <button class="start" onclick="start()">Start</button>
+        <button class="pause" onclick="pause()">Pause</button>
+        <button class="reset" onclick="reset()">Reset</button>
+        <button class="lap" onclick="lap()">Lap</button>
+    </div>
+
+    <ul id="laps"></ul>
+</div>
+
+<script>
+let time = 0;
+let interval = null;
+let running = false;
+
+function format(sec) {
+    let h = Math.floor(sec / 3600);
+    let m = Math.floor((sec % 3600) / 60);
+    let s = sec % 60;
+    return (
+        String(h).padStart(2, '0') + ':' +
+        String(m).padStart(2, '0') + ':' +
+        String(s).padStart(2, '0')
+    );
+}
+
+function start() {
+    if (!running) {
+        running = true;
+        interval = setInterval(() => {
+            time++;
+            document.getElementById("display").innerText = format(time);
+        }, 1000);
+    }
+}
+
+function pause() {
+    running = false;
+    clearInterval(interval);
+}
+
+function reset() {
+    pause();
+    time = 0;
+    document.getElementById("display").innerText = "00:00:00";
+    document.getElementById("laps").innerHTML = "";
+}
+
+function lap() {
+    if (runningunning) {
+        let li = document.createElement("li");
+        li.innerText = "Lap Time: " + format(time);
+        document.getElementById("laps").appendChild(li);
+    }
+}
+</script>
+
+</body>
+</html>
